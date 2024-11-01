@@ -1,4 +1,4 @@
-import invoiceModel from "../models/invoice.model";
+import { Invoice } from "../models/invoice.model.js";
 
 export const createInvoice = async (req, res) => {
   const { name, email, amount } = req.body;
@@ -6,10 +6,12 @@ export const createInvoice = async (req, res) => {
     if (!name || !email || !amount) {
       throw new Error("All fields are required");
     }
-    const newInvoice = new invoiceModel({
+    const invoiceID = Math.floor(Math.random() * 1000000) + 1 * Date.now();
+    const newInvoice = new Invoice({
       name,
       email,
       amount,
+      id: invoiceID,
     });
     await newInvoice.save();
     res.status(201).json({
@@ -24,7 +26,7 @@ export const createInvoice = async (req, res) => {
 
 export const getInvoices = async (req, res) => {
   try {
-    const invoices = await invoiceModel.find();
+    const invoices = await Invoice.find();
     res.status(200).json({ success: true, data: invoices });
   } catch (error) {
     console.log("Error while getting invoices", error);

@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./dbUtils/connectDB.js";
+import invoiceRoutes from "./routes/invoice.route.js";
+import authRoutes from "./routes/auth.route.js";
 
 dotenv.config();
 
@@ -15,6 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.json({ message: "Invoice Backend API" });
 });
+
+//Routes
+app.use("/api/invoice", invoiceRoutes);
+app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, async () => {
