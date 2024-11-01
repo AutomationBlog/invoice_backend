@@ -6,9 +6,9 @@ const invoiceSchema = new mongoose.Schema({
     required: true,
   },
   createdAt: {
-    type: Date,
+    type: Timestamp,
     required: true,
-    default: Date.now,
+    default: Timestamp.now,
   },
   name: {
     type: String,
