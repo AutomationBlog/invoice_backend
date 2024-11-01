@@ -9,7 +9,7 @@ const invoiceSchema = new mongoose.Schema(
     createdAt: {
       type: Date,
       required: true,
-      default: Date.now,
+      default: Timestamp.now,
     },
     name: {
       type: String,
@@ -30,7 +30,9 @@ const invoiceSchema = new mongoose.Schema(
       default: "pending",
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 export const Invoice = mongoose.model("Invoice", invoiceSchema, "invoice");
