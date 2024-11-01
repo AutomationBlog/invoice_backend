@@ -7,8 +7,9 @@ const invoiceSchema = new mongoose.Schema(
       required: true,
     },
     createdAt: {
-      type: Date.now,
+      type: Date,
       required: true,
+      default: Date.now,
     },
     name: {
       type: String,
