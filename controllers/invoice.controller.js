@@ -34,3 +34,22 @@ export const getInvoices = async (req, res) => {
     res.status(400).json({ success: false, msg: error.message });
   }
 };
+
+export const SendPaymentLink = async (req, res) => {
+  const { invoiceId } = req.body;
+
+  try {
+    const invoice = await Invoice.findOne({ invoiceId });
+    if (!invoice) {
+      throw new Error("Invoice not found");
+    } else if (invoice.userId !== req.userId) {
+      throw new Error("Unauthorized access");
+    } else if (invoice.isPaid) {
+      throw new Error("Invoice already paid");
+    }
+    await sendPaymentLink(invoice, res);
+  } catch (error) {
+    console.log("Error while sending payment link", error);
+    res.status(400).json({ success: false, msg: error.message });
+  }
+};

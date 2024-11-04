@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./dbUtils/connectDB.js";
 import invoiceRoutes from "./routes/invoice.route.js";
 import authRoutes from "./routes/auth.route.js";
+import PaymentRoutes from "./routes/payment.route.js";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 //Routes
 app.use("/api/invoice", invoiceRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/payment", PaymentRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, async () => {

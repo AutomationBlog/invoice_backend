@@ -29,9 +29,11 @@ const invoiceSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    enum: ["pending", "paid"],
-    default: "pending",
+    enum: ["Open", "Link Sent", "Paid"],
+    default: "Open",
   },
+  paymentLinkToken: String,
+  paymentLinkExpiresAt: Date,
 });
 
 export const Invoice = mongoose.model("Invoice", invoiceSchema, "invoice");

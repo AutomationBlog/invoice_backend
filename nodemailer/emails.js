@@ -4,6 +4,7 @@ import {
   VERIFICATION_EMAIL_SUCCESS_TEMPLATE,
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
+  PAYMENT_LINK_EMAIL_TEMPLATE,
 } from "./emailTemplates.js";
 
 import transporter from "./nodemailer.config.js";
@@ -68,6 +69,27 @@ export const sendPasswordResetEmail = async (email, resetToken) => {
     subject: "Reset Your Password",
     html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL),
     category: "Password Reset",
+  };
+  await transporter.sendMail(emailOptions);
+};
+
+export const sendPaymentEmail = async (email, name, paymentToken) => {
+  let paymentURL = "";
+  if (process.env.isLOCAL === "true") {
+    paymentURL = `${process.env.CLIENT_URL_LOCAL}/payment/${resetToken}`;
+  } else {
+    paymentURL = `${process.env.CLIENT_URL_CLOUD}/payment/${resetToken}`;
+  }
+
+  const emailOptions = {
+    from: process.env.EMAIL,
+    to: email,
+    subject: "Payment Successful",
+    html: PAYMENT_LINK_EMAIL_TEMPLATE.replace(
+      "{paymentURL}",
+      paymentURL
+    ).replace("{username}", name),
+    category: "Payment",
   };
   await transporter.sendMail(emailOptions);
 };
