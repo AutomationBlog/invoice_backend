@@ -1,8 +1,7 @@
 import { createRozorpayInstance } from "../config/razorpay.config.js";
 
-const razorpayInstance = createRozorpayInstance();
-
 export const createRazorpayPayment = async (req, res) => {
+  const razorpayInstance = createRozorpayInstance();
   try {
     const options = {
       amount: req.body.amount * 100,
