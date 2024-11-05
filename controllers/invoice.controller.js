@@ -37,6 +37,40 @@ export const getInvoices = async (req, res) => {
   }
 };
 
+export const getUserInvoices = async (req, res) => {
+  const invoiceId = req.invoiceId.toString();
+  try {
+    const invoices = await Invoice.findOne({ invoiceId: invoiceId });
+    res.status(200).json({ success: true, invoice: invoices });
+  } catch (error) {
+    console.log("Error while getting invoices", error);
+    res.status(400).json({ success: false, msg: error.message });
+  }
+};
+
+export const deleteInvoice = async (req, res) => {
+  const { invoiceId } = req.params;
+  try {
+    const invoice = await Invoice.findOne({
+      invoiceId: invoiceId,
+      userId: req.userId,
+    });
+    if (!invoice) {
+      res.status(400).json({ success: false, msg: "Invoice not found" });
+    } else if (invoice.userId !== req.userId) {
+      res.status(400).json({ success: false, msg: "Unauthorized access" });
+    }
+    await Invoice.deleteOne({ invoiceId: invoiceId });
+    res.status(200).json({
+      success: true,
+      msg: "Invoice deleted successfully",
+    });
+  } catch (error) {
+    console.log("Error while deleting invoice", error);
+    res.status(400).json({ success: false, msg: error.message });
+  }
+};
+
 export const SendPaymentLink = async (req, res) => {
   const { invoiceId } = req.body;
 
