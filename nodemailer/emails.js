@@ -73,22 +73,22 @@ export const sendPasswordResetEmail = async (email, resetToken) => {
   await transporter.sendMail(emailOptions);
 };
 
-export const sendPaymentEmail = async (email, name, paymentToken) => {
+export const sendPaymentEmail = async (invoice, token) => {
   let paymentURL = "";
   if (process.env.isLOCAL === "true") {
-    paymentURL = `${process.env.CLIENT_URL_LOCAL}/payment/${resetToken}`;
+    paymentURL = `${process.env.CLIENT_URL_LOCAL}/payment/${token}`;
   } else {
-    paymentURL = `${process.env.CLIENT_URL_CLOUD}/payment/${resetToken}`;
+    paymentURL = `${process.env.CLIENT_URL_CLOUD}/payment/${token}`;
   }
 
   const emailOptions = {
     from: process.env.EMAIL,
-    to: email,
-    subject: "Payment Successful",
+    to: invoice.email,
+    subject: "Invoice Payment Link",
     html: PAYMENT_LINK_EMAIL_TEMPLATE.replace(
       "{paymentURL}",
       paymentURL
-    ).replace("{username}", name),
+    ).replace("{username}", invoice.name),
     category: "Payment",
   };
   await transporter.sendMail(emailOptions);

@@ -12,3 +12,10 @@ export const generateTokenAndSetCookie = (res, userId) => {
   // });
   return token;
 };
+
+export const generateToken = (value, date) => {
+  const token = jwt.sign({ value }, process.env.JWT_SECRET, {
+    expiresIn: date,
+  });
+  return token;
+};

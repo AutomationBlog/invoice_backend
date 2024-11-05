@@ -1,4 +1,6 @@
 import { Invoice } from "../models/invoice.model.js";
+import { sendPaymentEmail } from "../nodemailer/emails.js";
+import { generateToken } from "../utils/generateTokenAndSetCookie.js";
 
 export const createInvoice = async (req, res) => {
   const { name, email, amount } = req.body;
@@ -41,13 +43,28 @@ export const SendPaymentLink = async (req, res) => {
   try {
     const invoice = await Invoice.findOne({ invoiceId });
     if (!invoice) {
-      throw new Error("Invoice not found");
+      res.status(400).json({ success: false, msg: "Invoice not found" });
     } else if (invoice.userId !== req.userId) {
-      throw new Error("Unauthorized access");
+      res.status(400).json({ success: false, msg: "Unauthorized access" });
     } else if (invoice.isPaid) {
-      throw new Error("Invoice already paid");
+      res.status(400).json({ success: false, msg: "Invoice already paid" });
     }
-    await sendPaymentLink(invoice, res);
+    const token = generateToken(invoice.invoiceId, "5mins");
+    await sendPaymentEmail(invoice, token);
+    await Invoice.updateOne(
+      { invoiceId: invoice.invoiceId },
+      {
+        $set: {
+          status: "Link Sent",
+          paymentLinkToken: `${token}`,
+          paymentLinkExpiresAt: new Date(Date.now() + 5 * 60 * 1000),
+        },
+      }
+    );
+    res.status(200).json({
+      success: true,
+      msg: "Payment link sent successfully",
+    });
   } catch (error) {
     console.log("Error while sending payment link", error);
     res.status(400).json({ success: false, msg: error.message });

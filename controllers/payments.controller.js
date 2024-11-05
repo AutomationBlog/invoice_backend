@@ -1,4 +1,4 @@
-import { createRozorpayInstance } from "../config/razorpay.config";
+import { createRozorpayInstance } from "../config/razorpay.config.js";
 
 const razorpayInstance = createRozorpayInstance();
 
