@@ -1,11 +1,8 @@
-import Razorpay from "razorpay";
+import createRozorpayInstance from "../config/razorpay.config.js";
 import dotenv from "dotenv";
 dotenv.config();
 export const createRazorpayPayment = async (req, res) => {
-  let razorpayInstance = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
-  });
+  let razorpayInstance = createRozorpayInstance();
   try {
     const options = {
       amount: req.body.amount * 100,

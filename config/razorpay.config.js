@@ -10,5 +10,3 @@ const createRozorpayInstance = () => {
 };
 
 export default createRozorpayInstance;
-
-console.log(createRozorpayInstance());
