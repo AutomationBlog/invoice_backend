@@ -10,7 +10,15 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: "*" }));
+app.use(
+  cors({
+    origin:
+      process.env.isLOCAL === "true"
+        ? process.env.CLIENT_URL_LOCAL
+        : process.env.CLIENT_URL_CLOUD,
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
