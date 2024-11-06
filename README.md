@@ -1,6 +1,8 @@
 # Invoice App
 
-Invoice App is an invoice management system. It allows users to create and view their invoices. The app is built using React and Node.js. The backend is built using Express and MongoDB. The frontend is built using React and TailwindCSS.
+Invoice App is an invoice management system. It allows users to create and view their invoices. The app is built using React and Node.js.
+
+Payment using Razorpay. payment link is sent to user's email. User can click on payment link to pay invoice. Payment link is valid for 5 minutes.
 
 ## Links
 
@@ -28,6 +30,8 @@ First start the backend API and then start the frontend app.
     CLIENT_URL_LOCAL=<http://localhost:5173>
     CLIENT_URL_CLOUD=<https://invoice-blog.netlify.app>
     isLOCAL=true
+    RAZORPAY_KEY_ID=
+    RAZORPAY_KEY_SECRET=
 
 ## API's
 
