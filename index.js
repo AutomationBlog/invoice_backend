@@ -10,17 +10,9 @@ dotenv.config();
 
 const app = express();
 
-app.use(
-  cors({
-    origin:
-      process.env.isLOCAL === "true"
-        ? process.env.CLIENT_URL_LOCAL
-        : process.env.CLIENT_URL_CLOUD,
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
 
 //Home Page Route
 app.get("/", (req, res) => {
