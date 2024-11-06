@@ -71,6 +71,35 @@ export const deleteInvoice = async (req, res) => {
   }
 };
 
+export const updateInvoicePayment = async (req, res) => {
+  const { invoiceId } = req.params;
+  const { status, paymentId } = req.body;
+  try {
+    const invoice = await Invoice.findOne({
+      invoiceId: invoiceId,
+    });
+    if (!invoice) {
+      res.status(400).json({ success: false, msg: "Invoice not found" });
+    }
+    await Invoice.updateOne(
+      { invoiceId: invoiceId },
+      {
+        $set: {
+          status,
+          paymentId,
+        },
+      }
+    );
+    res.status(200).json({
+      success: true,
+      msg: "Invoice updated successfully",
+    });
+  } catch (error) {
+    console.log("Error while updating invoice", error);
+    res.status(400).json({ success: false, msg: error.message });
+  }
+};
+
 export const SendPaymentLink = async (req, res) => {
   const { invoiceId } = req.body;
 

@@ -32,6 +32,7 @@ const invoiceSchema = new mongoose.Schema({
     enum: ["Open", "Link Sent", "Paid"],
     default: "Open",
   },
+  paymentId: { type: String, default: null },
   paymentLinkToken: String,
   paymentLinkExpiresAt: Date,
 });

@@ -6,7 +6,7 @@ export const createRazorpayPayment = async (req, res) => {
     const options = {
       amount: req.body.amount * 100,
       currency: "INR",
-      receipt: "order_rcptid_11",
+      receipt: Math.random().toString().slice(2, 10),
     };
     const order = await razorpayInstance.orders.create(options);
     res.status(200).json({
